@@ -13,8 +13,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class GameScreen implements Screen {
     final Box game;
@@ -28,10 +34,11 @@ public class GameScreen implements Screen {
     Array<Rectangle> raindrops;
     long lastDropTime;
     int dropsGathered;
+    private Stage stage;
+    private Skin skin;
 
     public GameScreen(final Box gam) {
         this.game = gam;
-
                         // โหลดไฟล์รูปถังน้ำและเม็ดฝน ขนาด 64x64 
         dropImage = new Texture(Gdx.files.internal("droplet.png"));
         bucketImage = new Texture(Gdx.files.internal("bucket.png"));
@@ -55,6 +62,26 @@ public class GameScreen implements Screen {
                         // สร้าง array เม็ดฝน และเริ่มโปรยเม็ดฝนเม็ดแรก
         raindrops = new Array<Rectangle>();
         spawnRaindrop();
+        
+        stage = new Stage(new StretchViewport(800, 480));
+        Gdx.input.setInputProcessor(stage);
+
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        TextButton buttonpuzzle1 = new TextButton("puzzle", skin);
+        buttonpuzzle1.setWidth(200);
+        buttonpuzzle1.setHeight(50);
+        buttonpuzzle1.setPosition(800 / 2 - 200 / 2, 300);
+
+        stage.addActor(buttonpuzzle1);
+
+        buttonpuzzle1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                game.setScreen(new MainMenuScreen(game));
+            }
+        });
 
     }
 
@@ -129,6 +156,14 @@ public class GameScreen implements Screen {
                 iter.remove();
             }
         }
+        
+        if(dropsGathered == 10) {
+        	game.setScreen(new Lost(game));
+        	Lost.bomb();
+        }
+        
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
     }
 
     @Override

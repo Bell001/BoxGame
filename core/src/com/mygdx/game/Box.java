@@ -26,14 +26,13 @@ public class Box extends Game {
     public BitmapFont font;
 
     public void create() {
-        batch = new SpriteBatch();
-                        
+        batch = new SpriteBatch();                        
         font = new BitmapFont();
         this.setScreen(new MainMenuScreen(this));
     }
 
     public void render() {
-        super.render(); //important!
+        super.render(); 
     }
 
     public void dispose() {
