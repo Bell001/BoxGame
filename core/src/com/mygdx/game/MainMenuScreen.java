@@ -23,7 +23,8 @@ public class MainMenuScreen implements Screen {
 	    private Stage stage;
 	    private Skin skin;
 	    public SpriteBatch batch;
-	    public  boolean[] Point = {false,false,false,false};
+	    public static  boolean[] Point = {true,true,true};
+	    public static  String[] Status = {"OFF","OFF","OFF"};
 	    Sprite back;
 	    Texture Background;
 	    private BitmapFont font;
@@ -42,53 +43,59 @@ public class MainMenuScreen implements Screen {
 	        Gdx.input.setInputProcessor(stage);
 
 	        skin = new Skin(Gdx.files.internal("uiskin.json"));
-
-	        TextButton buttonpuzzle1 = new TextButton("puzzle", skin);
-	        buttonpuzzle1.setWidth(200);
-	        buttonpuzzle1.setHeight(50);
-	        buttonpuzzle1.setPosition(800 / 2 - 200 / 2, 300);
-
-	        stage.addActor(buttonpuzzle1);
-
-	        buttonpuzzle1.addListener(new ClickListener() {
-	            @Override
-	            public void clicked(InputEvent event, float x, float y) {
-	                super.clicked(event, x, y);
-	                game.setScreen(new GameScreen(game));
-	            }
-	        });
+            	TextButton buttonpuzzle1 = new TextButton("puzzle1", skin);
+            	buttonpuzzle1.setWidth(200);
+            	buttonpuzzle1.setHeight(50);
+            	buttonpuzzle1.setPosition(800 / 2 - 200 / 2, 300);
+            	if(Point[0]){
+            		stage.addActor(buttonpuzzle1);
+            			
+            		buttonpuzzle1.addListener(new ClickListener() {
+            			@Override
+            			public void clicked(InputEvent event, float x, float y) {
+            				super.clicked(event, x, y);
+            				Status[0] = "ON";
+            				game.setScreen(new GameScreen(game));
+            			}
+            		});
+            	}
 	        
 
-	        TextButton buttonpuzzle2 = new TextButton("puzzle", skin);
-	        buttonpuzzle2.setWidth(200);
-	        buttonpuzzle2.setHeight(50);
-	        buttonpuzzle2.setPosition(800 / 2 - 200 / 2, 100);
-
-	        stage.addActor(buttonpuzzle2);
+            	TextButton buttonpuzzle2 = new TextButton("puzzle2", skin);
+            	buttonpuzzle2.setWidth(200);
+            	buttonpuzzle2.setHeight(50);
+            	buttonpuzzle2.setPosition(800 / 2 - 200 / 2, 200);
+            	if(Point[1]){
+            		stage.addActor(buttonpuzzle2);
+            		
+            		buttonpuzzle2.addListener(new ClickListener() {
+            			@Override
+            			public void clicked(InputEvent event, float x, float y) {
+            				super.clicked(event, x, y);
+	            			Status[1] = "ON";
+		        			game.setScreen(new GameScreen2(game));
+	        				}
+	        		});
+            	
+	        }
 	        
-	        buttonpuzzle2.addListener(new ClickListener() {
-	            @Override
-	            public void clicked(InputEvent event, float x, float y) {
-	                super.clicked(event, x, y);
-	                game.setScreen(new GameScreen(game));
-	            }
-	        });
-	        
 
-	        TextButton buttonpuzzle3 = new TextButton("puzzle", skin);
+	        TextButton buttonpuzzle3 = new TextButton("puzzle3", skin);
 	        buttonpuzzle3.setWidth(200);
 	        buttonpuzzle3.setHeight(50);
 	        buttonpuzzle3.setPosition(800 / 2 - 200 / 2, 100);
-
-	        stage.addActor(buttonpuzzle3);
-	        
-	        buttonpuzzle3.addListener(new ClickListener() {
-	            @Override
-	            public void clicked(InputEvent event, float x, float y) {
-	                super.clicked(event, x, y);
-	                game.setScreen(new GameScreen(game));
-	            }
-	        });
+            if(Point[2]){
+            	stage.addActor(buttonpuzzle3);
+            	
+            	buttonpuzzle3.addListener(new ClickListener() {
+            		@Override
+	            	public void clicked(InputEvent event, float x, float y) {
+	            		super.clicked(event, x, y);
+	            		Status[2] = "ON";
+	                	game.setScreen(new GameScreen3(game));
+	            	}
+            	});
+            }
 
 	    }
 	    
@@ -99,10 +106,25 @@ public class MainMenuScreen implements Screen {
 	        batch.begin();
 	        back.draw(batch);
 	        font.draw(batch, "Secret Box", 550, 700);
-	        batch.end();	        
-	        stage.act(Gdx.graphics.getDeltaTime());
-	        stage.draw();
+	        batch.end();	
+	         stage.act(Gdx.graphics.getDeltaTime());
+	         stage.draw();
+	        check();
 	        
+	    }
+	    
+	    public void check() {
+	    	int c =0;
+	    	
+	    	for(int i=0;i<3;i++) {
+	    		if(Point[i] == false) {
+	    			c+=1;
+	    		}
+	    	}
+	    	
+	    	if(c == 3){
+	    		game.setScreen(new Win(game));
+	    	}
 	    }
 
 		@Override

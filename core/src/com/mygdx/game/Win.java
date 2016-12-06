@@ -9,22 +9,52 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class Win implements Screen {
 	
-	static Sound BombSound;
+	final Box game;
+	static Sound SurpiseSound;
 	Sprite back;
     Texture Background;
     private BitmapFont font;
     public SpriteBatch batch;
+    private Stage stage;
+    private Skin skin;
 	
 	public Win(final Box gam) {
-		BombSound = Gdx.audio.newSound(Gdx.files.internal("bomb.mp3"));
+		game =gam;
+		SurpiseSound = Gdx.audio.newSound(Gdx.files.internal("bomb.mp3"));
 		font = new BitmapFont();
-	    font.setColor(Color.RED);
+	    font.setColor(Color.GREEN);
 	    batch = new SpriteBatch();
         Background = new Texture("Background.png");
         back = new Sprite(Background);
+        
+        stage = new Stage(new StretchViewport(800, 480));
+        Gdx.input.setInputProcessor(stage);
+
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        TextButton buttonpuzzle1 = new TextButton("puzzle", skin);
+        buttonpuzzle1.setWidth(200);
+        buttonpuzzle1.setHeight(50);
+        buttonpuzzle1.setPosition(800 / 2 - 200 / 2, 300);
+
+        stage.addActor(buttonpuzzle1);
+
+        buttonpuzzle1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                game.setScreen(new MainMenuScreen(game));
+            }
+        });
 		
 	}
 
@@ -42,6 +72,9 @@ public class Win implements Screen {
 	     back.draw(batch);
 	     font.draw(batch, "You Win", 550, 700);
 	     batch.end();	
+	     
+	     stage.act(Gdx.graphics.getDeltaTime());
+	     stage.draw();
 		
 	}
 

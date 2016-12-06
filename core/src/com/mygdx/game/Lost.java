@@ -68,10 +68,17 @@ public class Lost implements Screen {
 	     
 	     stage.act(Gdx.graphics.getDeltaTime());
 	     stage.draw();
+	     resetPoint();
 	 }
 	 
 	 public static void bomb() {
 		 BombSound.play();
+	 }
+	 
+	 public void resetPoint() {
+		 for(int i=0;i<3;i++) {
+			 MainMenuScreen.Point[i] = true;
+		 }
 	 }
 
 	@Override
