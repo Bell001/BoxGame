@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 public class GameScreen3 implements Screen{
 
 	final Box game;
+	static int setQ =-1;
 	int num =0;
 	int HP = 1;
 	 private Stage stage;
@@ -31,8 +32,27 @@ public class GameScreen3 implements Screen{
 	 boolean Checkclick = false;
 	 private BitmapFont font;
 	 public static boolean[] clearQ = {false,false,false,false,false};
+	 int[] ansuse = {0,4,2,3,1};
 	 int[] ansnum = {0,4,2,3,1};
-	 String[] Word = {"A: FISH  B: PICTURE  C: CAT  D: FLYFISH  E: SLEEP  ","A: FISH  B: PICTURE  C: CAT  D: FLYFISH  E: SLEEP  ","A: NUM B: HAHA C: D: E:","A: B: C: D: E:","A: B: C: D: E:"};
+	 int[] ansnum1 = {1,2,3,4,0};
+	 int[] ansnum2 = {1,2,3,4,0};
+	 String[] Worduse;
+	 String[] Word = {"A: Fungi B: Picture  C: Tree  D: Flyfish  E: Sleep  ",
+			 		  "A: Fish  B: Png  C: Github  D: Fox  E: Groove Coaster  ",
+			 		  "A: Symbol B: Omega C: Gitlab D: ? E: Owl ",
+			 		  "A: Donus B: Mongey C: Dragon D: Cat E: Dog ",
+	 				  "A: Fifa B: True C: Picture D: Hotdog E: Window "};
+
+	 String[] Word1 = {"A: x B: Picture  C: Tree  D: Flyfish  E: Sleep  ",
+			          "A: Fish  B: x  C: Github  D: Fox  E: Groove Coaster  ",
+			          "A: Symbol B: Omega C: x D: ? E: Owl ",
+			          "A: Donus B: Mongey C: Dragon D: Cat E: Dog ",
+			          "A: Fifa B: True C: Picture D: Hotdog E: Window "};
+	 String[] Word2 = {"A: x B: Picture  C: Tree  D: Flyfish  E: Sleep  ",
+	          "A: Fish  B: x  C: Github  D: Fox  E: Groove Coaster  ",
+	          "A: Symbol B: Omega C: x D: ? E: Owl ",
+	          "A: Donus B: Mongey C: Dragon D: Cat E: Dog ",
+	          "A: Fifa B: True C: Picture D: Hotdog E: Window "};
 
 	 public GameScreen3(final Box gam) {
 	        
@@ -137,16 +157,18 @@ public class GameScreen3 implements Screen{
 
 	@Override
 	public void render(float delta) {
+		setans_Q();
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 	     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	     if (TimeUtils.timeSinceNanos(startTime) > 1000000000) { 
-	    	 point  -= 1;  	     	 
+	    	 point  -= 1;  	   
+	    	 MainMenuScreen.UT += 1;
 	    	 startTime = TimeUtils.nanoTime();
 	     }
 	     batch.begin();
    	     font.draw(batch, "TIME-LIMIT : "+point, 550, 700);
    	     font.draw(batch, "What Picture "+num+" Mean?", 540, 600);
-   	     font.draw(batch, "CHOICE "+Word[num], 400, 500);
+   	     font.draw(batch, "CHOICE "+Worduse[num], 400, 500);
 	     batch.end();
 	     
 	     if(point <= 0) {
@@ -165,12 +187,12 @@ public class GameScreen3 implements Screen{
 	
 	public void check() {
 		
-        if(Answers == ansnum[num]) {
+        if(Answers == ansuse[num]) {
       			  clearQ[num] = true;
       			  Checkclick  = false;
       			  num += 1;
       			
-      	} else if(Answers != ansnum[num]){
+      	} else if(Answers != ansuse[num]){
       			  HP -= 1;
       	} 
       	if(num >= 5) {
@@ -183,6 +205,21 @@ public class GameScreen3 implements Screen{
 		if(HP < 0){
 			MainMenuScreen.Status[2] = "OFF";
 		 	game.setScreen(new Lost(game));
+		}
+	}
+	
+	public void setans_Q() {
+		if(setQ == 0) {
+			ansuse = ansnum;
+			Worduse = Word;
+		} else if(setQ ==1) {
+			ansuse = ansnum1;
+			Worduse = Word1;
+		} else if(setQ ==2) {
+			ansuse = ansnum2;
+			Worduse = Word2;
+		} else {
+			System.out.println("Value setQ error");
 		}
 	}
 

@@ -232,7 +232,8 @@ public class GameScreen implements Screen {
             
         } 
         if (TimeUtils.timeSinceNanos(startTime) > 1000000000) { 
-     	    	 point  -= 1;  	     	 
+     	    	 point  -= 1;  	
+     	    	 MainMenuScreen.UT += 1;
      	    	 startTime = TimeUtils.nanoTime();
      	}
      	batch.begin();

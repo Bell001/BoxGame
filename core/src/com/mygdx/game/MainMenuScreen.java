@@ -1,5 +1,8 @@
 package com.mygdx.game;
 
+import java.io.*;
+import java.net.*;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -16,21 +19,34 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+import gnu.io.SerialPortEvent;
+
 public class MainMenuScreen implements Screen {
 
 	    final Box game;
+	    static int UT = 0;
 	    OrthographicCamera camera;
 	    private Stage stage;
 	    private Skin skin;
 	    public SpriteBatch batch;
-	    public static  boolean[] Point = {true,true,true};
-	    public static  String[] Status = {"OFF","OFF","OFF"};
+	    
+	    public boolean AA = true;
+
+	    public static  boolean[] Point = {true,true,true,true};
+	    public static  String[] Status = {"OFF","OFF","OFF","OFF"};
 	    Sprite back;
 	    Texture Background;
 	    private BitmapFont font;
-
+	    private Controller ctrl;
+	    private SerialTest serialtest;
+	 
 	    public MainMenuScreen(final Box gam) {
-	        game = gam;
+	    	ctrl = new Controller();
+	    	Thread thr = new Thread(ctrl);
+	    	thr.setDaemon(true);
+	    	thr.start();
+	    
+	    	game = gam;
 	        font = new BitmapFont();
 	        font.setColor(Color.RED);
 	        batch = new SpriteBatch();
@@ -96,8 +112,28 @@ public class MainMenuScreen implements Screen {
 	            	}
             	});
             }
+            
+            TextButton buttonpuzzle4 = new TextButton("puzzle4", skin);
+        	buttonpuzzle4.setWidth(200);
+        	buttonpuzzle4.setHeight(50);
+        	buttonpuzzle4.setPosition(800 / 2 - 200 / 2, 50);
+        	if(Point[3]){
+        		stage.addActor(buttonpuzzle4);
+        			
+        		buttonpuzzle4.addListener(new ClickListener() {
+        			@Override
+        			public void clicked(InputEvent event, float x, float y) {
+        				super.clicked(event, x, y);
+        				Status[3] = "ON";
+        				game.setScreen(new GameScreen4(game));
+        			}
+        		});
+        	}
+        	
 
 	    }
+	    
+	    String a;
 	    
 	    @Override
 	    public void render(float delta) {
@@ -106,17 +142,31 @@ public class MainMenuScreen implements Screen {
 	        batch.begin();
 	        back.draw(batch);
 	        font.draw(batch, "Secret Box", 550, 700);
+
 	        batch.end();	
-	         stage.act(Gdx.graphics.getDeltaTime());
-	         stage.draw();
+	        stage.act(Gdx.graphics.getDeltaTime());
+	        stage.draw();
+	        
+	        if(AA) {
+	        	try {
+	        		GameScreen3.setQ =  ctrl.getValue();
+	        		System.out.println(ctrl.getValue());
+	        		if(ctrl.getword() == null){ AA = false; }
+	        	} catch (Exception e) {
+	        		// TODO Auto-generated catch block
+	        		e.printStackTrace();
+	        	}
+	        }
+	       
 	        check();
 	        
 	    }
 	    
+
 	    public void check() {
 	    	int c =0;
 	    	
-	    	for(int i=0;i<3;i++) {
+	    	for(int i=0;i<4;i++) {
 	    		if(Point[i] == false) {
 	    			c+=1;
 	    		}
@@ -124,6 +174,14 @@ public class MainMenuScreen implements Screen {
 	    	
 	    	if(c == 3){
 	    		game.setScreen(new Win(game));
+	    	}
+	    }
+	    
+	    public static void resetPoint() {
+	    	for(int i=0;i<4;i++) {
+	    		if(Point[i] == false) {
+	    			Point[i] = true;
+	    		}
 	    	}
 	    }
 

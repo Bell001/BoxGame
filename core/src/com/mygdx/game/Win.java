@@ -26,6 +26,7 @@ public class Win implements Screen {
     public SpriteBatch batch;
     private Stage stage;
     private Skin skin;
+    
 	
 	public Win(final Box gam) {
 		game =gam;
@@ -41,10 +42,10 @@ public class Win implements Screen {
 
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        TextButton buttonpuzzle1 = new TextButton("puzzle", skin);
+        TextButton buttonpuzzle1 = new TextButton("Return to Start", skin);
         buttonpuzzle1.setWidth(200);
         buttonpuzzle1.setHeight(50);
-        buttonpuzzle1.setPosition(800 / 2 - 200 / 2, 300);
+        buttonpuzzle1.setPosition(800 / 2 - 200 / 2, 100);
 
         stage.addActor(buttonpuzzle1);
 
@@ -71,8 +72,9 @@ public class Win implements Screen {
 		 batch.begin();
 	     back.draw(batch);
 	     font.draw(batch, "You Win", 550, 700);
+	     font.draw(batch, "USED TIME : "+MainMenuScreen.UT, 550, 600);
 	     batch.end();	
-	     
+	     MainMenuScreen.resetPoint();
 	     stage.act(Gdx.graphics.getDeltaTime());
 	     stage.draw();
 		

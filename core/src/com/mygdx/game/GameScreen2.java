@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+import practicum.TestPeri;
+
 public class GameScreen2 implements Screen{
 	
 	 final Box game;
@@ -32,8 +34,14 @@ public class GameScreen2 implements Screen{
 	 private int point =60;
 	 private BitmapFont font;
 	 public SpriteBatch batch;
-
+	 private TestSwitch Test;
+	 
 	 public GameScreen2(final Box gam) {
+		    Test = new TestSwitch();
+		    Thread thr = new Thread(Test);
+	    	thr.setDaemon(true);
+	    	thr.start();
+		 
 		    startTime = TimeUtils.nanoTime();
 		    for(int i=0;i<5;i++) {
       		     GMath = MathUtils.random(4);
@@ -136,18 +144,21 @@ public class GameScreen2 implements Screen{
 		
 	}
 
+	
 	@Override
 	public void render(float delta) {
 		 Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 	     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	     if (TimeUtils.timeSinceNanos(startTime) > 1000000000) { 
 	    	 point  -= 1;  	     	 
+	    	 MainMenuScreen.UT += 1;
 	    	 startTime = TimeUtils.nanoTime();
 	     }
 	     batch.begin();
     	 font.draw(batch, "TIME-LIMIT : "+point, 550, 700);
 	     batch.end();
-	     
+	     System.out.println(Test.getValue2());
+	    
 	     if(point <= 0) {
 	    	 game.setScreen(new Lost(game));
 	     } else if(point >= 58) {
