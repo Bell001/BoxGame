@@ -34,24 +34,28 @@ public class MainMenuScreen implements Screen {
 
 	    public static  boolean[] Point = {true,true,true,true};
 	    public static  String[] Status = {"OFF","OFF","OFF","OFF"};
-	    Sprite back;
+	
 	    Texture Background;
 	    private BitmapFont font;
 	    private Controller ctrl;
 	    private SerialTest serialtest;
+		private Sprite back;
 	 
 	    public MainMenuScreen(final Box gam) {
+	    	
 	    	ctrl = new Controller();
 	    	Thread thr = new Thread(ctrl);
 	    	thr.setDaemon(true);
 	    	thr.start();
 	    
+	    	
 	    	game = gam;
 	        font = new BitmapFont();
 	        font.setColor(Color.RED);
 	        batch = new SpriteBatch();
-            Background = new Texture("Background.png");
-            back = new Sprite(Background);
+	        Background = new Texture(Gdx.files.internal("Background.png"));
+	        back = new Sprite(Background);
+	    	
 	        camera = new OrthographicCamera();
 	        camera.setToOrtho(false, 800, 480);
 	        
@@ -62,7 +66,7 @@ public class MainMenuScreen implements Screen {
             	TextButton buttonpuzzle1 = new TextButton("puzzle1", skin);
             	buttonpuzzle1.setWidth(200);
             	buttonpuzzle1.setHeight(50);
-            	buttonpuzzle1.setPosition(800 / 2 - 200 / 2, 300);
+            	buttonpuzzle1.setPosition(800 / 2 - 200 / 2, 340);
             	if(Point[0]){
             		stage.addActor(buttonpuzzle1);
             			
@@ -80,7 +84,7 @@ public class MainMenuScreen implements Screen {
             	TextButton buttonpuzzle2 = new TextButton("puzzle2", skin);
             	buttonpuzzle2.setWidth(200);
             	buttonpuzzle2.setHeight(50);
-            	buttonpuzzle2.setPosition(800 / 2 - 200 / 2, 200);
+            	buttonpuzzle2.setPosition(800 / 2 - 200 / 2, 260);
             	if(Point[1]){
             		stage.addActor(buttonpuzzle2);
             		
@@ -99,7 +103,7 @@ public class MainMenuScreen implements Screen {
 	        TextButton buttonpuzzle3 = new TextButton("puzzle3", skin);
 	        buttonpuzzle3.setWidth(200);
 	        buttonpuzzle3.setHeight(50);
-	        buttonpuzzle3.setPosition(800 / 2 - 200 / 2, 100);
+	        buttonpuzzle3.setPosition(800 / 2 - 200 / 2, 180);
             if(Point[2]){
             	stage.addActor(buttonpuzzle3);
             	
@@ -116,7 +120,7 @@ public class MainMenuScreen implements Screen {
             TextButton buttonpuzzle4 = new TextButton("puzzle4", skin);
         	buttonpuzzle4.setWidth(200);
         	buttonpuzzle4.setHeight(50);
-        	buttonpuzzle4.setPosition(800 / 2 - 200 / 2, 50);
+        	buttonpuzzle4.setPosition(800 / 2 - 200 / 2, 100);
         	if(Point[3]){
         		stage.addActor(buttonpuzzle4);
         			
@@ -141,6 +145,7 @@ public class MainMenuScreen implements Screen {
 	        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	        batch.begin();
 	        back.draw(batch);
+//	        batch.draw(Background,0,0);
 	        font.draw(batch, "Secret Box", 550, 700);
 
 	        batch.end();	
@@ -172,7 +177,7 @@ public class MainMenuScreen implements Screen {
 	    		}
 	    	}
 	    	
-	    	if(c == 3){
+	    	if(c == 4){
 	    		game.setScreen(new Win(game));
 	    	}
 	    }

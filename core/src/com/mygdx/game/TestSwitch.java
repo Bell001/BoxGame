@@ -4,17 +4,14 @@ import org.usb4java.Device;
 
 public class TestSwitch implements Runnable{
 	
-	public boolean AA = true;
-	public static boolean sw1;
-	public boolean sw2;
-	public boolean sw3;
-	public boolean sw4;
-	public boolean sw5;
-	public static boolean red1;
-	public static boolean green;
-	public boolean red2;
-	static int A =0;
-
+	public static boolean sw1 = true;
+	public static boolean sw2 = true;
+	public static boolean sw3 = true;
+	public static boolean sw4 = true;
+	public static boolean sw5 = true;
+	public static boolean red1 = true;
+	public static boolean green= true;
+	public static boolean red2= true;
 
 	public void monitor() throws Exception {
 	    
@@ -25,19 +22,7 @@ public class TestSwitch implements Runnable{
         {
         	Device[] devices = McuBoard.findBoards();
         	
-//        	if (devices.length == 0) {
-//                System.out.format("** Practicum board not found **\n");
-//                return;
-//        	}
-//        	else {
-//                System.out.format("** Found %d practicum board(s) **\n", devices.length);
-//        	}
             McuWithPeriBoard peri = new McuWithPeriBoard(devices[0]);
-
-//            System.out.format("** Practicum board found **\n");
-//            System.out.format("** Manufacturer: %s\n", peri.getManufacturer());
-//            System.out.format("** Product: %s\n", peri.getProduct());
-            
 
             while (true) 
             {   
@@ -62,13 +47,37 @@ public class TestSwitch implements Runnable{
         McuBoard.cleanupUsb();
 	}
 	
-	public static int getValue2() { 
-		if(green) {
-			A =2;
-		} else {
-			A=1;
-		}
-		return A; }
+	public static boolean getsw1() { 
+	    return sw1;
+	}
+	
+	public static boolean getsw2() { 
+		return sw2;
+	}
+	
+	public static boolean getsw3() { 
+		return sw3;
+	}
+	
+	public static boolean getsw4() { 
+		return sw4;
+	}
+	
+	public static boolean getsw5() { 
+		return sw5;
+	}
+	
+	public static boolean getred1() { 
+	    return red1;
+	}
+	
+	public static boolean getgreen() { 
+	    return green;
+	}
+	
+	public static boolean getred2() { 
+	    return red2;
+	}
 	
 	@Override
 	public void run() {

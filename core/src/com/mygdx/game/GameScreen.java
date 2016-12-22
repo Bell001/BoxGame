@@ -43,15 +43,19 @@ public class GameScreen implements Screen {
     Array<Rectangle> Bomb;
     int[] dropsvalue;
     long lastDropTime;
-    int dropsGathered;
+    int Score;
 	private long startTime;
 	private int point = 60;
 	private SpriteBatch batch;
 	private BitmapFont font;
+	private TestSwitch Test;
 
     public GameScreen(final Box gam) {
         this.game = gam;
-        
+        Test = new TestSwitch();
+	    Thread thr = new Thread(Test);
+    	thr.setDaemon(true);
+    	thr.start();
         startTime = TimeUtils.nanoTime();
         
         font = new BitmapFont();
@@ -136,7 +140,7 @@ public class GameScreen implements Screen {
 
                         // เริ่มวาด เรนเดอร์ ตะกร้าและเม็ดฝน รวมถึงนับจำนวนเม็ดฝนที่เก็บได้
         game.batch.begin();
-        game.font.draw(game.batch, "Drops Collected: " + dropsGathered, 0, 480);
+        game.font.draw(game.batch, "Score:   " + Score, 0, 480);
         game.batch.draw(BImage, Box.x, Box.y);
         for (Rectangle t_Mush : T_Mush) {
             game.batch.draw(TMImage, t_Mush.x, t_Mush.y);
@@ -161,6 +165,10 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyPressed(Keys.LEFT))
             Box.x -= 200 * Gdx.graphics.getDeltaTime();
         if (Gdx.input.isKeyPressed(Keys.RIGHT))
+            Box.x += 200 * Gdx.graphics.getDeltaTime();
+        if (Test.getsw3())
+            Box.x -= 200 * Gdx.graphics.getDeltaTime();
+        if (Test.getsw4())
             Box.x += 200 * Gdx.graphics.getDeltaTime();
 
                 // เช็คไม่ให้ถังน้ำมันล้นหน้าจอ
@@ -194,7 +202,7 @@ public class GameScreen implements Screen {
             if (t_Mush.y + 64 < 0)
                 iter.remove();
             if (t_Mush.overlaps(Box)) {
-                dropsGathered++;
+                Score++;
                 dropSound.play();
                 iter.remove();
             }
@@ -206,7 +214,7 @@ public class GameScreen implements Screen {
             if (f_Mush.y + 64 < 0)
                 iter1.remove();
             if (f_Mush.overlaps(Box)) {
-                dropsGathered--;
+                Score--;
                 dropSound.play();
                 iter1.remove();
             }
@@ -218,13 +226,13 @@ public class GameScreen implements Screen {
             if (bomb.y + 64 < 0)
                 iter2.remove();
             if (bomb.overlaps(Box)) {
-                dropsGathered -= 3;
+                Score -= 3;
                 dropSound.play();
                 iter2.remove();
             }
         }
         
-        if(dropsGathered == 10) {
+        if(Score == 20) {
         	backMusic.stop();
         	MainMenuScreen.Status[0] = "OFF";
         	MainMenuScreen.Point[0] = false;
@@ -248,7 +256,7 @@ public class GameScreen implements Screen {
      	    	 
      	}
      	
-     	if(dropsGathered <= -10) {
+     	if(Score <= -10) {
      		MainMenuScreen.Status[0] = "OFF";
      		game.setScreen(new Lost(game));
      		backMusic.stop();

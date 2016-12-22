@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -26,6 +27,7 @@ public class Win implements Screen {
     public SpriteBatch batch;
     private Stage stage;
     private Skin skin;
+    Music backMusic;
     
 	
 	public Win(final Box gam) {
@@ -36,6 +38,8 @@ public class Win implements Screen {
 	    batch = new SpriteBatch();
         Background = new Texture("Background.png");
         back = new Sprite(Background);
+        backMusic = Gdx.audio.newMusic(Gdx.files.internal("victory.mp3"));
+        backMusic.setLooping(true);
         
         stage = new Stage(new StretchViewport(800, 480));
         Gdx.input.setInputProcessor(stage);
@@ -56,12 +60,6 @@ public class Win implements Screen {
                 game.setScreen(new MainMenuScreen(game));
             }
         });
-		
-	}
-
-	@Override
-	public void show() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -109,5 +107,11 @@ public class Win implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+    public void show() {
+                // เริ่มเล่นเสียงเพลง (เสียงฝนตก) เมื่อหน้าจอนี้แสดง
+        backMusic.play();
+    }
 
 }

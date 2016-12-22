@@ -37,22 +37,22 @@ public class GameScreen3 implements Screen{
 	 int[] ansnum1 = {1,2,3,4,0};
 	 int[] ansnum2 = {1,2,3,4,0};
 	 String[] Worduse;
-	 String[] Word = {"A: Fungi B: Picture  C: Tree  D: Flyfish  E: Sleep  ",
-			 		  "A: Fish  B: Png  C: Github  D: Fox  E: Groove Coaster  ",
-			 		  "A: Symbol B: Omega C: Gitlab D: ? E: Owl ",
-			 		  "A: Donus B: Mongey C: Dragon D: Cat E: Dog ",
-	 				  "A: Fifa B: True C: Picture D: Hotdog E: Window "};
+	 String[] Word = {"  A: Fungi    B: Picture     C: Tree     D: Flyfish     E: Sleep  ",
+			 		  "  A: Fish     B: Png         C: Github   D: Fox         E: Groove Coaster  ",
+			 		  "  A: Symbol   B: Omega       C: Cat      D: ?           E: Owl ",
+			 		  "  A: Donus    B: Mongey      C: Dragon   D: Gitlab      E: Dog ",
+	 				  "  A: Fifa     B: True        C: Picture  D: Hotdog      E: Window "};
 
-	 String[] Word1 = {"A: x B: Picture  C: Tree  D: Flyfish  E: Sleep  ",
-			          "A: Fish  B: x  C: Github  D: Fox  E: Groove Coaster  ",
-			          "A: Symbol B: Omega C: x D: ? E: Owl ",
-			          "A: Donus B: Mongey C: Dragon D: Cat E: Dog ",
-			          "A: Fifa B: True C: Picture D: Hotdog E: Window "};
-	 String[] Word2 = {"A: x B: Picture  C: Tree  D: Flyfish  E: Sleep  ",
-	          "A: Fish  B: x  C: Github  D: Fox  E: Groove Coaster  ",
-	          "A: Symbol B: Omega C: x D: ? E: Owl ",
-	          "A: Donus B: Mongey C: Dragon D: Cat E: Dog ",
-	          "A: Fifa B: True C: Picture D: Hotdog E: Window "};
+	 String[] Word1 = {"  A: Picture    B: Ladder     C: Tree      D: Flyfish      E: Sleep  ",
+			           "  A: Fish       B: GitHub     C: Mounthen  D: Fox          E: Groove Coaster  ",
+			           "  A: Symbol     B: Omega      C: ^_^       D: Goat         E: Owl ",
+			           "  A: Donus      B: Mongey     C: Dragon    D: Cat          E: Fish ",
+			           "  A: Duck       B: True       C: Picture   D: Hotdog       E: Window "};
+	 String[] Word2 = { "  A: Tree       B: Tower     C: Picture         D: Flyfish   E: Sleep  ",
+			 			"  A: Fish       B: Png        C: Pyramid   D: Fox       E: Github  ",
+			 			"  A: Symbol     B: Omega      C: ?               D: False       E: Owl ",
+			 			"  A: Donus      B: Mongey     C: Dragon          D: Dog       E: Frame  ",
+			  			"  A: Moon       B: Fifa       C: Picture         D: Hotdog    E: Window "};
 
 	 public GameScreen3(final Box gam) {
 	        
